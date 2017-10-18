@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "./build",
     "sourceMap": true,
     "declaration": false,
     "baseUrl": "./src",
@@ -10,7 +10,8 @@
     "experimentalDecorators": true,
     "target": "es6",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "app/typings.d.ts"
     ],
     "lib": [
       "es2017",
