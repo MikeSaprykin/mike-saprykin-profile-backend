@@ -1,4 +1,4 @@
-import * as mockgoose from 'mockgoose';
+const mockgoose = require('mockgoose');
 import * as mongoose from 'mongoose';
 
 if (process.env.NODE_ENV === 'testing') {
