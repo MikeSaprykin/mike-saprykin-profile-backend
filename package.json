@@ -4,7 +4,7 @@
   "description": "A backend app for profile application",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "cross-env NODE_ENV='testing' jest --coverage",
     "start": "nodemon",
     "precommit": "lint-staged",
     "prettier": "prettier --parser typescript --single-quote --trailing-comma es5 --write \"./**/*.ts\""
@@ -56,16 +56,21 @@
     "typescript": "^2.5.3"
   },
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "html",
+      "json"
+    ],
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "mapCoverage": true
   }
 }

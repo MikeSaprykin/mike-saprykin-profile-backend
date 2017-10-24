@@ -11,7 +11,7 @@
     "target": "es6",
     "typeRoots": [
       "node_modules/@types",
-      "app/typings.d.ts"
+      "typings.d.ts"
     ],
     "lib": [
       "es2017",
