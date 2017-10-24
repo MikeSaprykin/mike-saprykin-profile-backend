@@ -1,28 +1,29 @@
 import {
   GraphQLInt,
+  GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
 } from 'graphql';
+import { Cat } from '../models/cat';
 
-const CustomerType = new GraphQLObjectType({
-  name: 'Customer',
+const CatType = new GraphQLObjectType({
+  name: 'Cat',
   fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
-    email: { type: GraphQLString },
-    age: { type: GraphQLInt },
+    type: { type: GraphQLString },
   }),
 });
 
 const query = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    customer: {
-      type: CustomerType,
+    cats: {
+      type: new GraphQLList(CatType),
       resolve(root, args) {
-        return { id: '123', name: '123', email: '123', age: 20 };
+        return Cat.find().exec();
       },
     },
   },
@@ -31,15 +32,13 @@ const query = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addCustomer: {
-      type: CustomerType,
+    addCat: {
+      type: new GraphQLList(CatType),
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
-        email: { type: new GraphQLNonNull(GraphQLString) },
-        age: { type: new GraphQLNonNull(GraphQLInt) },
       },
-      resolve(root, { name, email, age }) {
-        return { name, email, age };
+      resolve(root, { name }) {
+        return Cat.insertMany({ name, type: 'Cat' });
       },
     },
   },

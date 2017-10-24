@@ -1,5 +1,7 @@
 const mockgoose = require('mockgoose');
-import * as mongoose from 'mongoose';
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
 
 if (process.env.NODE_ENV === 'testing') {
   mockgoose(mongoose).then((): void => {
@@ -8,7 +10,7 @@ if (process.env.NODE_ENV === 'testing') {
     });
   });
 } else {
-  mongoose.connect('mongodb://mongo:27017', {
+  mongoose.connect('mongodb://mongo:27017/animals', {
     useMongoClient: true,
   });
   console.log('CONNECTED!');
