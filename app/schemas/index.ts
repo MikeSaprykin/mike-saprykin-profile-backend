@@ -1,5 +1,6 @@
 import {
   GraphQLInt,
+  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
@@ -27,6 +28,24 @@ const query = new GraphQLObjectType({
   },
 });
 
-export default new GraphQLSchema({
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addCustomer: {
+      type: CustomerType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      resolve(root, { name, email, age }) {
+        return { name, email, age };
+      },
+    },
+  },
+});
+
+export const schema = new GraphQLSchema({
   query,
+  mutation,
 });

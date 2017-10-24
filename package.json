@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV='testing' jest --coverage",
     "start": "nodemon",
+    "server": "ts-node app/index.ts",
     "precommit": "lint-staged",
     "prettier": "prettier --parser typescript --single-quote --trailing-comma es5 --write \"./**/*.ts\""
   },

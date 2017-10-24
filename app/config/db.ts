@@ -8,9 +8,10 @@ if (process.env.NODE_ENV === 'testing') {
     });
   });
 } else {
-  mongoose.connect('mongodb://127.0.0.1/typescript_mongoose', {
+  mongoose.connect('mongodb://mongo:27017', {
     useMongoClient: true,
   });
+  console.log('CONNECTED!');
 }
 
 export { mongoose };
