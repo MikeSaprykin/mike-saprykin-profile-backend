@@ -10,10 +10,9 @@ if (process.env.NODE_ENV === 'testing') {
     });
   });
 } else {
-  mongoose.connect('mongodb://mongo:27017/animals', {
+  mongoose.connect('mongodb://mongo:27017/todos', {
     useMongoClient: true,
   });
-  console.log('CONNECTED!');
 }
 
 export { mongoose };
