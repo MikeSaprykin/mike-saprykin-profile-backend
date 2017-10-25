@@ -8,10 +8,12 @@ import {
 
 import { TodoModel } from '../models';
 
+import { filter, not, isEmpty, omit, pipe } from 'ramda';
+
 export const TodoType = new GraphQLObjectType({
   name: 'Todo',
   fields: () => ({
-    id: { type: GraphQLString },
+    _id: { type: GraphQLString },
     title: { type: GraphQLString },
     description: { type: GraphQLString },
     done: { type: GraphQLBoolean },
@@ -74,12 +76,12 @@ export const todoMutations = {
       description: { type: GraphQLString },
       done: { type: GraphQLBoolean },
     },
-    resolve(root, { id, title, description, done }) {
-      return TodoModel.findByIdAndUpdate(id, {
-        title,
-        description,
-        done,
-      }).exec();
+    resolve(root, args) {
+      const { id } = args;
+      const updateData = pipe(filter(val => not(isEmpty(val))), omit(['id']))(
+        args
+      );
+      return TodoModel.findByIdAndUpdate(id, updateData).exec();
     },
   },
 };
