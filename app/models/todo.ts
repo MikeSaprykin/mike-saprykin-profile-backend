@@ -3,15 +3,14 @@ import { mongoose } from '../config';
 export interface Todo {
   title: string;
   description: string;
-  id: string;
+  _id: string;
   done: boolean;
 }
 
 export const todoScheme = new mongoose.Schema({
-  title: String,
-  description: String,
-  id: String,
-  done: Boolean,
+  title: { type: String, required: 'Title is required' },
+  description: { type: String, required: 'Description is required' },
+  done: { type: Boolean, default: false },
 });
 
 export const TodoModel = mongoose.model('todo', todoScheme);
