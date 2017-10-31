@@ -9,7 +9,7 @@ export interface Todo {
 
 export const todoScheme = new mongoose.Schema({
   title: { type: String, required: 'Title is required' },
-  description: { type: String, required: 'Description is required' },
+  description: { type: String },
   done: { type: Boolean, default: false },
 });
 

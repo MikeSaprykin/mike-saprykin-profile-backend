@@ -4,6 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLInt,
 } from 'graphql';
 
 import { TodoModel } from '../models';
@@ -22,15 +23,25 @@ export const TodoType = new GraphQLObjectType({
 
 const todoListType = new GraphQLList(TodoType);
 
+enum TodoFilter {
+  ALL,
+  DONE,
+  ACTIVE,
+}
+
 export const todoQueries = {
   todos: {
     type: todoListType,
     args: {
-      done: { type: GraphQLBoolean },
+      done: { type: GraphQLInt },
     },
     resolve(root, { done }) {
-      const searchCondition = typeof done !== 'undefined' ? { done } : {};
-      return TodoModel.find(searchCondition).exec();
+      const lookUp = {
+        [TodoFilter.ALL]: {},
+        [TodoFilter.DONE]: { done: true },
+        [TodoFilter.ACTIVE]: { done: false },
+      };
+      return TodoModel.find(lookUp[done]).exec();
     },
   },
 };
@@ -42,10 +53,10 @@ export const todoMutations = {
     type: todoListType,
     args: {
       title: { type: notNullString },
-      description: { type: notNullString },
+      description: { type: GraphQLString },
       done: { type: GraphQLBoolean },
     },
-    resolve(root, { title, description, done = false }) {
+    resolve(root, { title, description = '', done = false }) {
       return TodoModel.insertMany([{ title, description, done }]);
     },
   },
