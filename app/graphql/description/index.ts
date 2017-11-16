@@ -1,2 +1,2 @@
 export * from './description.mutations';
-export * from './description.querries';
+export * from './description.queries';

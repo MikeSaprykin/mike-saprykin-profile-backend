@@ -6,7 +6,7 @@ export interface CategoryTechnology {
   technology_id: string;
 }
 
-export const categoryTechnologySchema = new mongoose.Schema({
+const categoryTechnologySchema = new mongoose.Schema({
   category_id: { type: String, required: 'Category Id is required' },
   technology_id: { type: String, required: 'Technology Id is required' },
 });
