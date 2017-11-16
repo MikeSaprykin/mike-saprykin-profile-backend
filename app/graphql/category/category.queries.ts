@@ -3,7 +3,7 @@ import { categoryModel } from '../../models';
 import { GraphQLFieldConfigMap } from 'graphql';
 
 export const categoryQueries: GraphQLFieldConfigMap<any, any> = {
-  category_technology: {
+  categories: {
     type: categoryList,
     resolve() {
       return categoryModel.find().exec();
