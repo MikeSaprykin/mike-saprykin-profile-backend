@@ -1,4 +1,3 @@
-import { Mockgoose } from 'mockgoose';
 const mongoose = require('mongoose');
 
 import { equals, always } from 'ramda';
@@ -11,8 +10,8 @@ const DOCKER = 'docker';
 
 const DB_URLS = {
   [TESTING]: 'mongodb://example.com/TestingDB',
-  [DEVELOP]: 'mongodb://0.0.0.0:27017/todos',
-  [DOCKER]: 'mongodb://mongo:27017/todos',
+  [DEVELOP]: 'mongodb://0.0.0.0:27017/profile',
+  [DOCKER]: 'mongodb://mongo:27017/profile',
 };
 
 const options = {

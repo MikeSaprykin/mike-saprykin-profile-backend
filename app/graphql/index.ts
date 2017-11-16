@@ -1,23 +1,23 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { todoQueries, todoMutations } from './todo';
-import { fileMutations } from './file';
+import { descriptionMutations, descriptionQueries } from './description';
+import { technologyMutations } from './technology';
 
 const query = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    ...todoQueries,
+    ...descriptionQueries,
   },
 });
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    ...todoMutations,
-    ...fileMutations,
+    ...descriptionMutations,
+    ...technologyMutations,
   },
 });
 
-export const schema = new GraphQLSchema({
+export default new GraphQLSchema({
   query,
   mutation,
 });
