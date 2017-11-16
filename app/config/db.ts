@@ -1,7 +1,7 @@
-const mockgoose = require('mockgoose');
+import { Mockgoose } from 'mockgoose';
 const mongoose = require('mongoose');
 
-import { equals } from 'ramda';
+import { equals, always } from 'ramda';
 
 mongoose.Promise = global.Promise;
 
@@ -22,8 +22,6 @@ const options = {
 const connectToMongo = () =>
   mongoose.connect(DB_URLS[process.env.NODE_ENV], options);
 
-equals(process.env.NODE_ENV, TESTING)
-  ? mockgoose(mongoose).then(connectToMongo)
-  : connectToMongo();
+equals(process.env.NODE_ENV, TESTING) ? always(true) : connectToMongo();
 
 export { mongoose };
