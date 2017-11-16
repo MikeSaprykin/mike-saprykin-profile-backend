@@ -52,6 +52,8 @@
     "@types/mongoose": "^4.7.25",
     "@types/node": "^8.0.50",
     "@types/swagger-jsdoc": "0.0.1",
+    "apollo-server-express": "^1.2.0",
+    "apollo-upload-server": "^2.0.4",
     "aws-sdk": "^2.148.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",

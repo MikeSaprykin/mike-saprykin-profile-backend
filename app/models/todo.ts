@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { mongoose } from '../config';
 
 export interface Todo {
   title: string;
@@ -7,10 +7,10 @@ export interface Todo {
   done: boolean;
 }
 
-export const todoScheme = new Schema({
+export const todoScheme = new mongoose.Schema({
   title: { type: String, required: 'Title is required' },
   description: { type: String },
   done: { type: Boolean, default: false },
 });
 
-export const TodoModel = model('todo', todoScheme);
+export const TodoModel = mongoose.model('todo', todoScheme);

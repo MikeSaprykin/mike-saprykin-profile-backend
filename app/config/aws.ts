@@ -1,14 +1,13 @@
 import * as AWS from 'aws-sdk';
 import { readFile, readFileSync } from 'fs';
 import { promisify } from 'util';
+import { bucketName } from '../../config';
 
 console.log('SET CONFIG!');
 
 AWS.config.loadFromPath('./config.json');
 const s3 = new AWS.S3({ region: 'eu-central-1' });
 promisify(s3.putObject);
-
-const bucketName = 'myfirstbucket2111';
 
 const createItemObject = (imageName, image, cb) => {
   const params = {

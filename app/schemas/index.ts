@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { todoQueries, todoMutations } from './todo';
+import { fileMutations } from './file';
 
 const query = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -12,6 +13,7 @@ const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     ...todoMutations,
+    ...fileMutations,
   },
 });
 

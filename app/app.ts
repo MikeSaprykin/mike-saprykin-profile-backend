@@ -1,17 +1,25 @@
 import * as express from 'express';
 import { json, urlencoded } from 'body-parser';
-import * as expressGraphQL from 'express-graphql';
 import { schema } from './schemas';
 import * as cors from 'cors';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+const upload = require('apollo-upload-server');
 
 export const app = express();
 
 app.use(
   '/graphql',
   cors(),
-  expressGraphQL({
+  json(),
+  upload.apolloUploadExpress(),
+  graphqlExpress({
     schema,
-    graphiql: true,
+  })
+);
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
   })
 );
 
