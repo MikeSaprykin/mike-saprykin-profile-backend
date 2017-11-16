@@ -1,2 +1,2 @@
 export * from './technology.mutations';
-// export * from './technology.querries';
+export * from './technology.querries';

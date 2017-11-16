@@ -38,8 +38,17 @@ export const technologyMutations: GraphQLFieldConfigMap<any, any> = {
       categories: { type: listString },
     },
     async resolve(root, args) {
-      const { id } = args;
+      const { id, categories } = args;
       await model.findByIdAndUpdate(id, omit(args, 'id')).exec();
+      if (categories && categories.length) {
+        await categoryTechnologyModel.remove({ technology_id: id }).exec();
+        await categoryTechnologyModel.insertMany(
+          categories.map(category_id => ({
+            category_id,
+            technology_id: id,
+          }))
+        );
+      }
       return model.find().exec();
     },
   },
@@ -50,6 +59,7 @@ export const technologyMutations: GraphQLFieldConfigMap<any, any> = {
     },
     async resolve(root, { id }) {
       await model.findByIdAndRemove(id).exec();
+      await categoryTechnologyModel.remove({ technology_id: id });
       return model.find().exec();
     },
   },
