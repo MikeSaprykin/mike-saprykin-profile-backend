@@ -2,6 +2,7 @@ import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { descriptionMutations, descriptionQueries } from './description';
 import { technologyMutations, technologyQueries } from './technology';
 import { categoryTechnologyQueries } from './category-technology';
+import { categoryMutations, categoryQueries } from './category';
 
 const query = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -9,6 +10,7 @@ const query = new GraphQLObjectType({
     ...descriptionQueries,
     ...technologyQueries,
     ...categoryTechnologyQueries,
+    ...categoryQueries,
   },
 });
 
@@ -17,6 +19,7 @@ const mutation = new GraphQLObjectType({
   fields: {
     ...descriptionMutations,
     ...technologyMutations,
+    ...categoryMutations,
   },
 });
 
