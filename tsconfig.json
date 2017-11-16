@@ -1,0 +1,21 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./build",
+    "sourceMap": true,
+    "declaration": false,
+    "baseUrl": "./src",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "typeRoots": [
+      "node_modules/@types",
+      "typings.d.ts"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
+}
