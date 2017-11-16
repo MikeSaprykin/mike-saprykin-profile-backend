@@ -1,8 +1,8 @@
 import { GraphQLFieldConfigMap, GraphQLString } from 'graphql';
-import { omit } from 'lodash';
 
 import { categoryModel as model, categoryTechnologyModel } from '../../models';
 import { listString, notNullString } from '../helpers';
+import { insertCategoryTechnologies } from '../category-technology';
 import { categoryList } from './category.types';
 
 export const categoryMutations: GraphQLFieldConfigMap<any, any> = {
@@ -14,14 +14,7 @@ export const categoryMutations: GraphQLFieldConfigMap<any, any> = {
     },
     async resolve(root, { title, technologies }) {
       const { _id } = await model.create({ title });
-      if (technologies && technologies.length) {
-        await categoryTechnologyModel.insertMany(
-          technologies.map(technology_id => ({
-            category_id: _id,
-            technology_id,
-          }))
-        );
-      }
+      await insertCategoryTechnologies(_id, technologies);
       return model.find().exec();
     },
   },
@@ -36,12 +29,7 @@ export const categoryMutations: GraphQLFieldConfigMap<any, any> = {
       await model.findByIdAndUpdate(id, { title }).exec();
       if (technologies && technologies.length) {
         await categoryTechnologyModel.remove({ category_id: id }).exec();
-        await categoryTechnologyModel.insertMany(
-          technologies.map(technology_id => ({
-            category_id: id,
-            technology_id,
-          }))
-        );
+        await insertCategoryTechnologies(id, technologies);
       }
       return model.find().exec();
     },

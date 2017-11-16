@@ -1,12 +1,11 @@
 import { GraphQLFieldConfigMap, GraphQLString } from 'graphql';
-import { omit } from 'lodash';
-
 import {
   technologyModel as model,
   categoryTechnologyModel,
 } from '../../models';
 import { notNullString, notNullListString, listString } from '../helpers';
 import { technologiesListType } from './technology.types';
+import { insertCategoryTechnologies } from '../category-technology';
 
 export const technologyMutations: GraphQLFieldConfigMap<any, any> = {
   addTechnology: {
@@ -19,12 +18,7 @@ export const technologyMutations: GraphQLFieldConfigMap<any, any> = {
     },
     async resolve(root, { title, description, icon, categories }) {
       const { _id } = await model.create({ title, description, icon });
-      await categoryTechnologyModel.insertMany(
-        categories.map(category_id => ({
-          category_id,
-          technology_id: _id,
-        }))
-      );
+      await insertCategoryTechnologies(categories, _id);
       return model.find().exec();
     },
   },
@@ -38,16 +32,11 @@ export const technologyMutations: GraphQLFieldConfigMap<any, any> = {
       categories: { type: listString },
     },
     async resolve(root, args) {
-      const { id, categories } = args;
-      await model.findByIdAndUpdate(id, omit(args, 'id')).exec();
+      const { id, categories, title, description, icon } = args;
+      await model.findByIdAndUpdate(id, { title, description, icon }).exec();
       if (categories && categories.length) {
         await categoryTechnologyModel.remove({ technology_id: id }).exec();
-        await categoryTechnologyModel.insertMany(
-          categories.map(category_id => ({
-            category_id,
-            technology_id: id,
-          }))
-        );
+        await insertCategoryTechnologies(categories, id);
       }
       return model.find().exec();
     },
