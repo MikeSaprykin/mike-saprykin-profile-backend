@@ -1,17 +1,27 @@
-const mockgoose = require('mockgoose');
-import * as mongoose from 'mongoose';
+import { Mockgoose } from 'mockgoose';
+const mongoose = require('mongoose');
 
-if (process.env.NODE_ENV === 'testing') {
-  mockgoose(mongoose).then((): void => {
-    mongoose.connect('mongodb://example.com/TestingDB', {
-      useMongoClient: true,
-    });
-  });
-} else {
-  mongoose.connect('mongodb://mongo:27017', {
-    useMongoClient: true,
-  });
-  console.log('CONNECTED!');
-}
+import { equals, always } from 'ramda';
+
+mongoose.Promise = global.Promise;
+
+const TESTING = 'testing';
+const DEVELOP = 'develop';
+const DOCKER = 'docker';
+
+const DB_URLS = {
+  [TESTING]: 'mongodb://example.com/TestingDB',
+  [DEVELOP]: 'mongodb://0.0.0.0:27017/todos',
+  [DOCKER]: 'mongodb://mongo:27017/todos',
+};
+
+const options = {
+  useMongoClient: true,
+};
+
+const connectToMongo = () =>
+  mongoose.connect(DB_URLS[process.env.NODE_ENV], options);
+
+equals(process.env.NODE_ENV, TESTING) ? always(true) : connectToMongo();
 
 export { mongoose };
