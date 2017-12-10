@@ -66,8 +66,6 @@ jobs:
               - node_modules
             key: v1-dependencies-{{ checksum "package.json" }}
 
-        - run: yarn build
-
         - run: docker build . -t mikesaprykin/mike-profile-backend
 
         - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
