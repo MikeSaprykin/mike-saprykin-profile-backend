@@ -1,0 +1,4 @@
+bump-version
+coverage
+.circleci
+node_modules
